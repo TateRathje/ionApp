@@ -1,9 +1,20 @@
 var App = angular.module("App", ["ionic"]);
 
-App.controller("AppCtrl", ["$scope", "$log", AppCtrl]);
+App.service("FreshlyPressed", ["$http", "$log", FreshlyPressed]);
 
-function AppCtrl($scope, $log) {
+App.controller("AppCtrl", ["$scope", "FreshlyPressed", "$log", AppCtrl]);
+
+function AppCtrl($scope, FreshlyPressed, $log) {
 	$scope.refresh = function() {
-		alert("Button pressed");
+		FreshlyPressed.getBlogs();
 	}
+}
+
+function FreshlyPressed($http, $log) {
+	this.getBlogs = function() {
+		$http.jsonp("http://public-api.wordpress.com/rest/v1/freshly-pressed?callback=JSON_CALLBACK")
+			.success(function(result) {
+				$log.info(JSON.stringify(result.posts));
+			});
+	};
 }
