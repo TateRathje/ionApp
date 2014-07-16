@@ -10,3 +10,7 @@
 	background: #9ff59f;
 }
 
+.item.item-body img {
+	max-width: 100% !important;
+	max-height: 100% !important;
+}
